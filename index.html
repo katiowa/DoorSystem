@@ -1103,7 +1103,7 @@ print(door:GetAttribute("IsOpen"))  -- true or false
          // Verifica se o usuário já tinha uma preferência salva
          if (localStorage.getItem('theme') === 'dark') {
              body.classList.add('dark-mode');
-             themeBtn.textContent = '☀️ Modo Claro';
+             themeBtn.textContent = '🌙 Modo Escuro';
          }
          
          themeBtn.addEventListener('click', () => {
@@ -1111,10 +1111,10 @@ print(door:GetAttribute("IsOpen"))  -- true or false
              
              if (body.classList.contains('dark-mode')) {
                  localStorage.setItem('theme', 'dark');
-                 themeBtn.textContent = '☀️ Modo Claro';
+                 themeBtn.textContent = '🌙 Modo Escuro';
              } else {
                  localStorage.setItem('theme', 'light');
-                 themeBtn.textContent = '🌙 Modo Escuro';
+                 themeBtn.textContent = '☀️ Modo Escuro';
              }
          });
       </script>
