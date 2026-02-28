@@ -145,6 +145,15 @@
          .btn-secondary:hover {
          background: rgba(255,255,255,0.3);
          }
+         .btn-download {
+         background: var(--success);
+         color: white;
+         }
+         .btn-download:hover {
+         background: #059669; /* Um verde um pouco mais escuro */
+         transform: translateY(-2px);
+         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+         }
          /* Main Content */
          .main {
          display: grid;
@@ -361,6 +370,7 @@
             <p>A high-performance, DOD-optimized door management system for Roblox with bit-level state control and O(1) operations</p>
             <div class="hero-buttons">
                <a href="#getting-started" class="btn btn-primary">Get Started</a>
+               <a href="DoorSystem.rbxm" download class="btn btn-download">Download .rbxm</a>
                <a href="#api-reference" class="btn btn-secondary">API Reference</a>
             </div>
          </div>
@@ -430,8 +440,9 @@
                   <h2>Installation</h2>
                   <h3>Method 1: Manual Installation</h3>
                   <ol>
-                     <li>Download the repository from GitHub</li>
-                     <li>Copy the <span class="inline-code">DoorSystem</span> ModuleScript to <span class="inline-code">ServerScriptService</span></li>
+                     <li>Download the <strong><a href="DoorSystem.rbxm" download style="color: var(--primary);">DoorSystem.rbxm</a></strong> file</li>
+                     <li>Drag and drop the file into Roblox Studio</li>
+                     <li>Move the <span class="inline-code">DoorSystem</span> module to <span class="inline-code">ServerScriptService</span></li>
                      <li>Copy the example <span class="inline-code">Main.luau</span> to <span class="inline-code">ServerScriptService</span></li>
                   </ol>
                   <h3 id="file-structure">File Structure</h3>
