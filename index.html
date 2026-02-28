@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>DoorSystem API Documentation</title>
+      <style>
+         /* Variáveis para o Modo Escuro */
+         body.dark-mode {
+         --bg: #0f172a;
+         --surface: #1e293b;
+         --border: #334155;
+         --text: #f1f5f9;
+         --text-muted: #94a3b8;
+         }
+         /* Ajuste sutil nos cards e tabelas para o modo escuro */
+         body.dark-mode .feature-card, 
+         body.dark-mode th,
+         body.dark-mode .file-tree,
+         body.dark-mode .inline-code {
+         background: #1e293b;
+         border: 1px solid var(--border);
+         }
+         body.dark-mode tr:hover {
+         background: #2d3748;
+         }
+         /* Botão de Alternância (Floating) */
+         .theme-toggle {
+         background: var(--primary);
+         color: white;
+         border: none;
+         padding: 0.5rem 1rem;
+         border-radius: 0.5rem;
+         cursor: pointer;
+         font-weight: 600;
+         transition: transform 0.2s;
+         }
+         .theme-toggle:hover {
+         transform: scale(1.05);
+         }
+         * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         }
+         :root {
+         --primary: #2563eb;
+         --primary-dark: #1e40af;
+         --secondary: #64748b;
+         --bg: #f8fafc;
+         --surface: #ffffff;
+         --border: #e2e8f0;
+         --text: #0f172a;
+         --text-muted: #64748b;
+         --code-bg: #1e293b;
+         --code-text: #e2e8f0;
+         --success: #10b981;
+         --warning: #f59e0b;
+         --shadow: 0 1px 3px rgba(0,0,0,0.1);
+         }
+         body {
+         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+         line-height: 1.6;
+         color: var(--text);
+         background: var(--bg);
+         }
+         .container {
+         max-width: 1200px;
+         margin: 0 auto;
+         padding: 0 20px;
+         }
+         /* Header */
+         header {
+         background: var(--surface);
+         border-bottom: 1px solid var(--border);
+         position: sticky;
+         top: 0;
+         z-index: 100;
+         box-shadow: var(--shadow);
+         }
+         .header-content {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         padding: 1rem 0;
+         }
+         .logo {
+         font-size: 1.5rem;
+         font-weight: 700;
+         color: var(--primary);
+         }
+         .version {
+         background: var(--primary);
+         color: white;
+         padding: 0.25rem 0.75rem;
+         border-radius: 1rem;
+         font-size: 0.875rem;
+         font-weight: 600;
+         }
+         /* Hero Section */
+         .hero {
+         background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+         color: white;
+         padding: 4rem 0;
+         text-align: center;
+         }
+         .hero h1 {
+         font-size: 3rem;
+         margin-bottom: 1rem;
+         font-weight: 800;
+         }
+         .hero p {
+         font-size: 1.25rem;
+         opacity: 0.9;
+         max-width: 600px;
+         margin: 0 auto 2rem;
+         }
+         .hero-buttons {
+         display: flex;
+         gap: 1rem;
+         justify-content: center;
+         flex-wrap: wrap;
+         }
+         .btn {
+         padding: 0.75rem 2rem;
+         border-radius: 0.5rem;
+         text-decoration: none;
+         font-weight: 600;
+         transition: all 0.3s;
+         display: inline-block;
+         }
+         .btn-primary {
+         background: white;
+         color: var(--primary);
+         }
+         .btn-primary:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+         }
+         .btn-secondary {
+         background: rgba(255,255,255,0.2);
+         color: white;
+         border: 2px solid white;
+         }
+         .btn-secondary:hover {
+         background: rgba(255,255,255,0.3);
+         }
+         /* Main Content */
+         .main {
+         display: grid;
+         grid-template-columns: 250px 1fr;
+         gap: 2rem;
+         padding: 3rem 0;
+         }
+         /* Sidebar */
+         .sidebar {
+         position: sticky;
+         top: 80px;
+         height: fit-content;
+         }
+         .nav-section {
+         margin-bottom: 1.5rem;
+         }
+         .nav-title {
+         font-weight: 700;
+         color: var(--text);
+         margin-bottom: 0.5rem;
+         font-size: 0.875rem;
+         text-transform: uppercase;
+         letter-spacing: 0.05em;
+         }
+         .nav-list {
+         list-style: none;
+         }
+         .nav-list a {
+         display: block;
+         padding: 0.5rem 0;
+         color: var(--text-muted);
+         text-decoration: none;
+         transition: color 0.2s;
+         font-size: 0.9375rem;
+         }
+         .nav-list a:hover {
+         color: var(--primary);
+         }
+         /* Content */
+         .content {
+         background: var(--surface);
+         border-radius: 0.75rem;
+         padding: 2.5rem;
+         box-shadow: var(--shadow);
+         }
+         .section {
+         margin-bottom: 3rem;
+         }
+         .section h2 {
+         font-size: 2rem;
+         color: var(--text);
+         margin-bottom: 1rem;
+         padding-bottom: 0.5rem;
+         border-bottom: 2px solid var(--border);
+         }
+         .section h3 {
+         font-size: 1.5rem;
+         color: var(--text);
+         margin: 2rem 0 1rem;
+         }
+         .section h4 {
+         font-size: 1.125rem;
+         color: var(--text);
+         margin: 1.5rem 0 0.75rem;
+         }
+         /* Code Blocks */
+         pre {
+         background: var(--code-bg);
+         color: var(--code-text);
+         padding: 1.5rem;
+         border-radius: 0.5rem;
+         overflow-x: auto;
+         margin: 1rem 0;
+         border-left: 4px solid var(--primary);
+         }
+         code {
+         font-family: 'Courier New', Courier, monospace;
+         font-size: 0.9rem;
+         }
+         .inline-code {
+         background: var(--border);
+         color: var(--primary-dark);
+         padding: 0.125rem 0.375rem;
+         border-radius: 0.25rem;
+         font-size: 0.875rem;
+         }
+         /* Tables */
+         table {
+         width: 100%;
+         border-collapse: collapse;
+         margin: 1.5rem 0;
+         }
+         th, td {
+         text-align: left;
+         padding: 0.75rem;
+         border-bottom: 1px solid var(--border);
+         }
+         th {
+         background: var(--bg);
+         font-weight: 600;
+         color: var(--text);
+         }
+         tr:hover {
+         background: var(--bg);
+         }
+         /* Badges */
+         .badge {
+         display: inline-block;
+         padding: 0.25rem 0.5rem;
+         border-radius: 0.25rem;
+         font-size: 0.75rem;
+         font-weight: 600;
+         text-transform: uppercase;
+         }
+         .badge-optional {
+         background: #dbeafe;
+         color: #1e40af;
+         }
+         .badge-required {
+         background: #fee2e2;
+         color: #991b1b;
+         }
+         /* Feature Grid */
+         .feature-grid {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+         gap: 1.5rem;
+         margin: 2rem 0;
+         }
+         .feature-card {
+         background: var(--bg);
+         padding: 1.5rem;
+         border-radius: 0.5rem;
+         border-left: 4px solid var(--primary);
+         }
+         .feature-card h4 {
+         color: var(--primary);
+         margin: 0 0 0.5rem 0;
+         }
+         .feature-card p {
+         color: var(--text-muted);
+         font-size: 0.9375rem;
+         margin: 0;
+         }
+         /* File Structure */
+         .file-tree {
+         background: var(--bg);
+         padding: 1.5rem;
+         border-radius: 0.5rem;
+         font-family: 'Courier New', Courier, monospace;
+         line-height: 1.8;
+         }
+         .file-tree-item {
+         padding-left: 1.5rem;
+         }
+         /* Alert Box */
+         .alert {
+         padding: 1rem;
+         border-radius: 0.5rem;
+         margin: 1rem 0;
+         border-left: 4px solid;
+         }
+         .alert-info {
+         background: #dbeafe;
+         border-color: var(--primary);
+         color: #1e40af;
+         }
+         .alert-warning {
+         background: #fef3c7;
+         border-color: var(--warning);
+         color: #92400e;
+         }
+         /* Footer */
+         footer {
+         background: var(--surface);
+         border-top: 1px solid var(--border);
+         padding: 2rem 0;
+         margin-top: 4rem;
+         text-align: center;
+         color: var(--text-muted);
+         }
+         /* Responsive */
+         @media (max-width: 768px) {
+         .main {
+         grid-template-columns: 1fr;
+         }
+         .sidebar {
+         position: static;
+         }
+         .hero h1 {
+         font-size: 2rem;
+         }
+         .content {
+         padding: 1.5rem;
+         }
+         }
+      </style>
+   </head>
+   <body>
+      <header>
+         <div class="container">
+            <div class="header-content">
+               <div class="logo">🚪 DoorSystem</div>
+               <div style="display: flex; gap: 1rem; align-items: center;">
+                  <button class="theme-toggle" id="themeBtn">🌙 Modo Escuro</button>
+                  <span class="version">v1.0.0</span>
+               </div>
+            </div>
+         </div>
+      </header>
+      <section class="hero">
+         <div class="container">
+            <h1>DoorSystem API</h1>
+            <p>A high-performance, DOD-optimized door management system for Roblox with bit-level state control and O(1) operations</p>
+            <div class="hero-buttons">
+               <a href="#getting-started" class="btn btn-primary">Get Started</a>
+               <a href="#api-reference" class="btn btn-secondary">API Reference</a>
+            </div>
+         </div>
+      </section>
+      <div class="container">
+         <div class="main">
+            <aside class="sidebar">
+               <nav>
+                  <div class="nav-section">
+                     <div class="nav-title">Getting Started</div>
+                     <ul class="nav-list">
+                        <li><a href="#installation">Installation</a></li>
+                        <li><a href="#quick-start">Quick Start</a></li>
+                        <li><a href="#file-structure">File Structure</a></li>
+                     </ul>
+                  </div>
+                  <div class="nav-section">
+                     <div class="nav-title">API Reference</div>
+                     <ul class="nav-list">
+                        <li><a href="#doorsystem-new">DoorSystem.new()</a></li>
+                        <li><a href="#setcallback">SetCallback()</a></li>
+                        <li><a href="#setdeniedcallback">SetDeniedCallback()</a></li>
+                        <li><a href="#openall">OpenAll()</a></li>
+                        <li><a href="#closeall">CloseAll()</a></li>
+                        <li><a href="#setlocked">SetLocked()</a></li>
+                        <li><a href="#setlockedall">SetLockedAll()</a></li>
+                        <li><a href="#unlock">Unlock()</a></li>
+                        <li><a href="#unlockall">UnlockAll()</a></li>
+                     </ul>
+                  </div>
+                  <div class="nav-section">
+                     <div class="nav-title">Advanced</div>
+                     <ul class="nav-list">
+                        <li><a href="#configuration">Configuration</a></li>
+                        <li><a href="#examples">Examples</a></li>
+                        <li><a href="#best-practices">Best Practices</a></li>
+                     </ul>
+                  </div>
+               </nav>
+            </aside>
+            <main class="content">
+               <!-- Overview -->
+               <section id="overview" class="section">
+                  <h2>Overview</h2>
+                  <p>DoorSystem is a production-ready, memory-efficient door management library for Roblox that uses Data-Oriented Design (DOD) principles and bit-level operations to achieve O(1) performance for all state operations.</p>
+                  <div class="feature-grid">
+                     <div class="feature-card">
+                        <h4>⚡ High Performance</h4>
+                        <p>O(1) state operations using bit manipulation and buffer storage</p>
+                     </div>
+                     <div class="feature-card">
+                        <h4>🎯 Memory Efficient</h4>
+                        <p>DOD architecture with isolated memory allocation per door group</p>
+                     </div>
+                     <div class="feature-card">
+                        <h4>🔧 Easy Integration</h4>
+                        <p>Fluent API design with chainable methods</p>
+                     </div>
+                     <div class="feature-card">
+                        <h4>🔐 Built-in Security</h4>
+                        <p>Lock states, key requirements, and access control out of the box</p>
+                     </div>
+                  </div>
+               </section>
+               <!-- Installation -->
+               <section id="installation" class="section">
+                  <h2>Installation</h2>
+                  <h3>Method 1: Manual Installation</h3>
+                  <ol>
+                     <li>Download the repository from GitHub</li>
+                     <li>Copy the <span class="inline-code">DoorSystem</span> ModuleScript to <span class="inline-code">ServerScriptService</span></li>
+                     <li>Copy the example <span class="inline-code">Main.luau</span> to <span class="inline-code">ServerScriptService</span></li>
+                  </ol>
+                  <h3 id="file-structure">File Structure</h3>
+                  <div class="file-tree">
+                     ServerScriptService<br>
+                     ├── Main.luau (ServerScript)<br>
+                     └── DoorSystem (ModuleScript)<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;├── Core<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;│   └── DoorGroup.luau<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;└── Utils<br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── BufferSerializer.luau (optional)
+                  </div>
+               </section>
+               <!-- Quick Start -->
+               <section id="getting-started" class="section">
+                  <h2 id="quick-start">Quick Start</h2>
+                  <p>Here's a minimal example to get you started:</p>
+                  <pre><code>local DoorSystem = require(game.ServerScriptService.DoorSystem)
+
+-- Create a door group
+local MyDoors = DoorSystem.new(workspace.Map.Doors, {
+    PromptProps = { ActionText = "Open/Close" }  -- optional
+})
+
+-- Define what happens when a door toggles
+MyDoors:SetCallback(function(door, isOpen, player)
+    door.Transparency = isOpen and 0.8 or 0
+    door.CanCollide = not isOpen
+end)
+
+-- That's it! Your doors are ready to use
+</code></pre>
+                  <div class="alert alert-info">
+                     <strong>Note:</strong> The system automatically creates ProximityPrompts for each door in the folder if they don't exist.
+                  </div>
+               </section>
+               <!-- API Reference -->
+               <section id="api-reference" class="section">
+                  <h2>API Reference</h2>
+                  <!-- DoorSystem.new -->
+                  <h3 id="doorsystem-new">DoorSystem.new()</h3>
+                  <p>Creates and returns a new DoorGroup instance with isolated memory allocation.</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorSystem.new(folder: Folder, config: table?) → DoorGroup
+</code></pre>
+                  <h4>Parameters</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Parameter</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>folder</code></td>
+                           <td>Folder</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>The folder containing door instances</td>
+                        </tr>
+                        <tr>
+                           <td><code>config</code></td>
+                           <td>table</td>
+                           <td><span class="badge badge-optional">Optional</span></td>
+                           <td>Configuration table (see configuration section)</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Returns</h4>
+                  <p>A <span class="inline-code">DoorGroup</span> object with chainable methods.</p>
+                  <h4>Example</h4>
+                  <pre><code>-- Basic usage
+local doors = DoorSystem.new(workspace.Doors)
+
+-- With configuration
+local secureDoors = DoorSystem.new(workspace.SecureDoors, {
+    RequiredKey = "Keycard",  -- optional
+    PromptProps = {           -- optional
+        ActionText = "Access Panel",
+        HoldDuration = 1.5
+    }
+})
+</code></pre>
+                  <!-- SetCallback -->
+                  <h3 id="setcallback">SetCallback()</h3>
+                  <p>Defines the behavior when a door is successfully toggled.</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:SetCallback(fn: function) → DoorGroup
+</code></pre>
+                  <h4>Parameters</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Parameter</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>fn</code></td>
+                           <td>function</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>Callback function(door, isOpen, player)</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Callback Arguments</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Argument</th>
+                           <th>Type</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>door</code></td>
+                           <td>Instance</td>
+                           <td>The door instance that was toggled</td>
+                        </tr>
+                        <tr>
+                           <td><code>isOpen</code></td>
+                           <td>boolean</td>
+                           <td>The new state (true = open, false = closed)</td>
+                        </tr>
+                        <tr>
+                           <td><code>player</code></td>
+                           <td>Player?</td>
+                           <td>The player who triggered it (nil for system calls)</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Example</h4>
+                  <pre><code>doors:SetCallback(function(door, isOpen, player)
+    -- Animate the door
+    door.Transparency = isOpen and 0.8 or 0
+    door.CanCollide = not isOpen
+    
+    -- Play sound
+    if isOpen then
+        door.OpenSound:Play()
+    else
+        door.CloseSound:Play()
+    end
+    
+    -- Log who opened it
+    if player then
+        print(player.Name .. " toggled " .. door.Name)
+    end
+end)
+</code></pre>
+                  <!-- SetDeniedCallback -->
+                  <h3 id="setdeniedcallback">SetDeniedCallback()</h3>
+                  <p>Defines the behavior when access is denied (locked or missing key).</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:SetDeniedCallback(fn: function) → DoorGroup
+</code></pre>
+                  <h4>Parameters</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Parameter</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>fn</code></td>
+                           <td>function</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>Callback function(door, player, reason)</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Callback Arguments</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Argument</th>
+                           <th>Type</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>door</code></td>
+                           <td>Instance</td>
+                           <td>The door instance</td>
+                        </tr>
+                        <tr>
+                           <td><code>player</code></td>
+                           <td>Player</td>
+                           <td>The player who was denied access</td>
+                        </tr>
+                        <tr>
+                           <td><code>reason</code></td>
+                           <td>string</td>
+                           <td>"Locked" or "MissingKey"</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Example</h4>
+                  <pre><code>doors:SetDeniedCallback(function(door, player, reason)
+    if reason == "Locked" then
+        warn(player.Name .. " tried to open locked door: " .. door.Name)
+        -- Play error sound
+        door.ErrorSound:Play()
+    elseif reason == "MissingKey" then
+        -- Send notification to player
+        game.ReplicatedStorage.Notify:FireClient(player, "You need a keycard!")
+    end
+end)
+</code></pre>
+                  <!-- OpenAll -->
+                  <h3 id="openall">OpenAll()</h3>
+                  <p>Opens all doors in the group instantly.</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:OpenAll() → DoorGroup
+</code></pre>
+                  <h4>Example</h4>
+                  <pre><code>-- Emergency evacuation: open all doors
+doors:OpenAll()
+
+-- Chain with other methods
+doors:UnlockAll():OpenAll()
+</code></pre>
+                  <!-- CloseAll -->
+                  <h3 id="closeall">CloseAll()</h3>
+                  <p>Closes all doors in the group instantly.</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:CloseAll() → DoorGroup
+</code></pre>
+                  <h4>Example</h4>
+                  <pre><code>-- Lockdown protocol
+doors:CloseAll():SetLockedAll(true)
+</code></pre>
+                  <!-- SetLocked -->
+                  <h3 id="setlocked">SetLocked()</h3>
+                  <p>Sets the lock state of a specific door.</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:SetLocked(door: Instance, isLocked: boolean) → DoorGroup
+</code></pre>
+                  <h4>Parameters</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Parameter</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>door</code></td>
+                           <td>Instance</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>The door instance to lock/unlock</td>
+                        </tr>
+                        <tr>
+                           <td><code>isLocked</code></td>
+                           <td>boolean</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>true to lock, false to unlock</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Example</h4>
+                  <pre><code>-- Lock a specific door
+local mainDoor = workspace.Doors.MainEntrance
+doors:SetLocked(mainDoor, true)
+
+-- Unlock it later
+doors:SetLocked(mainDoor, false)
+</code></pre>
+                  <!-- SetLockedAll -->
+                  <h3 id="setlockedall">SetLockedAll()</h3>
+                  <p>Sets the lock state of all doors in the group.</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:SetLockedAll(isLocked: boolean) → DoorGroup
+</code></pre>
+                  <h4>Parameters</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Parameter</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>isLocked</code></td>
+                           <td>boolean</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>true to lock all, false to unlock all</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Example</h4>
+                  <pre><code>-- Security lockdown
+doors:SetLockedAll(true)
+
+-- End lockdown
+doors:SetLockedAll(false)
+</code></pre>
+                  <!-- Unlock -->
+                  <h3 id="unlock">Unlock()</h3>
+                  <p>Unlocks a specific door (convenience method).</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:Unlock(door: Instance) → DoorGroup
+</code></pre>
+                  <h4>Parameters</h4>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Parameter</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>door</code></td>
+                           <td>Instance</td>
+                           <td><span class="badge badge-required">Required</span></td>
+                           <td>The door instance to unlock</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Example</h4>
+                  <pre><code>doors:Unlock(workspace.Doors.MainEntrance)
+</code></pre>
+                  <!-- UnlockAll -->
+                  <h3 id="unlockall">UnlockAll()</h3>
+                  <p>Unlocks all doors in the group (convenience method).</p>
+                  <h4>Syntax</h4>
+                  <pre><code>DoorGroup:UnlockAll() → DoorGroup
+</code></pre>
+                  <h4>Example</h4>
+                  <pre><code>doors:UnlockAll()
+</code></pre>
+               </section>
+               <!-- Configuration -->
+               <section id="configuration" class="section">
+                  <h2>Configuration</h2>
+                  <p>The configuration table passed to <span class="inline-code">DoorSystem.new()</span> accepts the following options:</p>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Option</th>
+                           <th>Type</th>
+                           <th>Required</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>RequiredKey</code></td>
+                           <td>string</td>
+                           <td><span class="badge badge-optional">Optional</span></td>
+                           <td>Name of tool/item required in player's character to open doors</td>
+                        </tr>
+                        <tr>
+                           <td><code>PromptProps</code></td>
+                           <td>table</td>
+                           <td><span class="badge badge-optional">Optional</span></td>
+                           <td>Properties to apply to ProximityPrompts</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h3>PromptProps Options</h3>
+                  <p>Any valid ProximityPrompt property can be set. Common options:</p>
+                  <table>
+                     <thead>
+                        <tr>
+                           <th>Property</th>
+                           <th>Type</th>
+                           <th>Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td><code>ActionText</code></td>
+                           <td>string</td>
+                           <td>Text shown on the prompt</td>
+                        </tr>
+                        <tr>
+                           <td><code>HoldDuration</code></td>
+                           <td>number</td>
+                           <td>Seconds player must hold to trigger</td>
+                        </tr>
+                        <tr>
+                           <td><code>KeyboardKeyCode</code></td>
+                           <td>Enum</td>
+                           <td>Keyboard key to trigger prompt</td>
+                        </tr>
+                        <tr>
+                           <td><code>ObjectText</code></td>
+                           <td>string</td>
+                           <td>Name of the object being interacted with</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <h4>Example Configuration</h4>
+                  <pre><code>local config = {
+    RequiredKey = "SecurityCard",  -- optional
+    PromptProps = {                 -- optional
+        ActionText = "Access Panel",
+        ObjectText = "Security Door",
+        HoldDuration = 2,
+        KeyboardKeyCode = Enum.KeyCode.E
+    }
+}
+
+local doors = DoorSystem.new(workspace.SecureDoors, config)
+</code></pre>
+               </section>
+               <!-- Examples -->
+               <section id="examples" class="section">
+                  <h2>Examples</h2>
+                  <h3>Basic Door System</h3>
+                  <pre><code>local DoorSystem = require(game.ServerScriptService.DoorSystem)
+
+-- Simple doors that just change transparency
+local basicDoors = DoorSystem.new(workspace.BasicDoors)
+    :SetCallback(function(door, isOpen)
+        door.Transparency = isOpen and 0.8 or 0
+        door.CanCollide = not isOpen
+    end)
+</code></pre>
+                  <h3>Secure Area with Keycard</h3>
+                  <pre><code>-- Doors that require a keycard
+local secureDoors = DoorSystem.new(workspace.SecureArea, {
+    RequiredKey = "Keycard",
+    PromptProps = {
+        ActionText = "Scan Keycard",
+        HoldDuration = 1
+    }
+})
+    :SetCallback(function(door, isOpen, player)
+        door.Transparency = isOpen and 0.5 or 0
+        door.CanCollide = not isOpen
+        door.AccessLight.Color = isOpen and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
+    end)
+    :SetDeniedCallback(function(door, player, reason)
+        if reason == "MissingKey" then
+            print(player.Name .. " needs a keycard!")
+            door.ErrorSound:Play()
+        end
+    end)
+</code></pre>
+                  <h3>Emergency Lockdown System</h3>
+                  <pre><code>local allDoors = DoorSystem.new(workspace.AllDoors)
+    :SetCallback(function(door, isOpen)
+        door.Transparency = isOpen and 0.7 or 0
+        door.CanCollide = not isOpen
+    end)
+
+-- Trigger lockdown on event
+game.ReplicatedStorage.EmergencyLockdown.Event:Connect(function()
+    print("🚨 LOCKDOWN INITIATED")
+    
+    allDoors
+        :CloseAll()           -- Close all doors
+        :SetLockedAll(true)   -- Lock them
+    
+    -- Unlock after 60 seconds
+    task.delay(60, function()
+        print("✅ Lockdown lifted")
+        allDoors:SetLockedAll(false)
+    end)
+end)
+</code></pre>
+                  <h3>Multiple Door Groups</h3>
+                  <pre><code>-- Public areas - no restrictions
+local publicDoors = DoorSystem.new(workspace.Public, {
+    PromptProps = { ActionText = "Open/Close" }
+})
+    :SetCallback(function(door, isOpen)
+        door.Transparency = isOpen and 0.8 or 0
+        door.CanCollide = not isOpen
+    end)
+
+-- Staff areas - require staff pass
+local staffDoors = DoorSystem.new(workspace.StaffOnly, {
+    RequiredKey = "StaffPass",
+    PromptProps = {
+        ActionText = "Staff Access",
+        HoldDuration = 0.5
+    }
+})
+    :SetCallback(function(door, isOpen, player)
+        door.Transparency = isOpen and 0.5 or 0
+        door.CanCollide = not isOpen
+        if player then
+            print("Staff access: " .. player.Name)
+        end
+    end)
+    :SetDeniedCallback(function(door, player)
+        warn("Unauthorized access attempt by " .. player.Name)
+    end)
+
+-- Admin vault - require admin key + longer hold
+local vaultDoors = DoorSystem.new(workspace.Vault, {
+    RequiredKey = "AdminKey",
+    PromptProps = {
+        ActionText = "Admin Access",
+        HoldDuration = 3
+    }
+})
+    :SetCallback(function(door, isOpen, player)
+        door.Transparency = isOpen and 0.3 or 0
+        door.CanCollide = not isOpen
+        door.AlarmLight.Enabled = isOpen
+        if isOpen and player then
+            warn("⚠️ VAULT OPENED BY: " .. player.Name)
+        end
+    end)
+</code></pre>
+                  <h3>Timed Auto-Close Doors</h3>
+                  <pre><code>local autoDoors = DoorSystem.new(workspace.AutoDoors)
+    :SetCallback(function(door, isOpen)
+        door.Transparency = isOpen and 0.8 or 0
+        door.CanCollide = not isOpen
+        
+        -- Auto-close after 5 seconds
+        if isOpen then
+            task.delay(5, function()
+                -- Re-close the door by finding it in the group
+                local doorGroup = autoDoors
+                local id = doorGroup.InstanceToId[door]
+                if id then
+                    doorGroup:_setState(id, false)
+                    door:SetAttribute("IsOpen", false)
+                    -- Trigger callback
+                    door.Transparency = 0
+                    door.CanCollide = true
+                end
+            end)
+        end
+    end)
+</code></pre>
+                  <h3>Sound Effects and Animations</h3>
+                  <pre><code>local animatedDoors = DoorSystem.new(workspace.AnimatedDoors)
+    :SetCallback(function(door, isOpen, player)
+        local tween = game:GetService("TweenService")
+        local info = TweenInfo.new(0.5, Enum.EasingStyle.Quad)
+        
+        if isOpen then
+            -- Slide door to the side
+            tween:Create(door, info, {CFrame = door.CFrame * CFrame.new(0, 0, -5)}):Play()
+            door.OpenSound:Play()
+        else
+            -- Slide back to original position
+            tween:Create(door, info, {CFrame = door.CFrame * CFrame.new(0, 0, 5)}):Play()
+            door.CloseSound:Play()
+        end
+        
+        door.CanCollide = not isOpen
+    end)
+</code></pre>
+               </section>
+               <!-- Best Practices -->
+               <section id="best-practices" class="section">
+                  <h2>Best Practices</h2>
+                  <h3>1. Organize Doors in Folders</h3>
+                  <p>Group related doors in workspace folders for better organization and independent control:</p>
+                  <pre><code>Workspace
+├── PublicDoors
+├── SecureDoors
+└── AdminDoors
+</code></pre>
+                  <h3>2. Use Method Chaining</h3>
+                  <p>All methods return the DoorGroup, allowing for clean, fluent code:</p>
+                  <pre><code>doors
+    :SetCallback(openCallback)
+    :SetDeniedCallback(deniedCallback)
+    :UnlockAll()
+</code></pre>
+                  <h3>3. Separate Logic from Aesthetics</h3>
+                  <p>Define your callbacks separately for better maintainability:</p>
+                  <pre><code>local Callbacks = {
+    Standard = function(door, isOpen)
+        -- Animation logic here
+    end,
+    
+    Secure = function(door, isOpen, player)
+        -- Secure door logic here
+    end
+}
+
+doors:SetCallback(Callbacks.Standard)
+</code></pre>
+                  <h3>4. Handle Edge Cases</h3>
+                  <p>Always check if player exists when it might be nil:</p>
+                  <pre><code>:SetCallback(function(door, isOpen, player)
+    if player then
+        print(player.Name .. " opened the door")
+    else
+        print("System opened the door")
+    end
+end)
+</code></pre>
+                  <h3>5. Use task.spawn for Callbacks</h3>
+                  <p>Callbacks are automatically spawned in new threads to prevent yielding. You can safely use wait() or other yielding functions inside callbacks.</p>
+                  <div class="alert alert-warning">
+                     <strong>Performance Note:</strong> Each DoorGroup allocates isolated memory buffers. For optimal performance, group related doors together rather than creating individual groups for each door.
+                  </div>
+               </section>
+               <!-- Technical Details -->
+               <section id="technical" class="section">
+                  <h2>Technical Details</h2>
+                  <h3>Performance Characteristics</h3>
+                  <ul>
+                     <li><strong>State Operations:</strong> O(1) using bit manipulation</li>
+                     <li><strong>Lock Operations:</strong> O(1) using separate lock buffer</li>
+                     <li><strong>Memory per Door:</strong> 1 bit for state + 1 bit for lock = 2 bits</li>
+                     <li><strong>Buffer Size:</strong> ceil(doorCount / 8) bytes per buffer</li>
+                  </ul>
+                  <h3>Architecture</h3>
+                  <p>DoorSystem uses Data-Oriented Design (DOD) principles:</p>
+                  <ul>
+                     <li>Isolated memory allocation per door group</li>
+                     <li>Bit-packed state storage for cache efficiency</li>
+                     <li>Weak-keyed instance registry for O(1) lookups</li>
+                     <li>Native Luau optimization hints (@native)</li>
+                  </ul>
+                  <h3>Attributes</h3>
+                  <p>Each door automatically gets an <span class="inline-code">IsOpen</span> attribute that reflects its current state. You can read this attribute from client scripts:</p>
+                  <pre><code>-- Client script
+local door = workspace.Doors.MainDoor
+print(door:GetAttribute("IsOpen"))  -- true or false
+</code></pre>
+               </section>
+            </main>
+         </div>
+      </div>
+      <footer>
+         <div class="container">
+            <p>DoorSystem v1.0.0 | Built with ❤️ for Roblox | Licensed under MIT</p>
+            <p>Questions or issues? Open an issue on GitHub</p>
+         </div>
+      </footer>
+      <script>
+         const themeBtn = document.getElementById('themeBtn');
+         const body = document.body;
+         
+         // Verifica se o usuário já tinha uma preferência salva
+         if (localStorage.getItem('theme') === 'dark') {
+             body.classList.add('dark-mode');
+             themeBtn.textContent = '☀️ Modo Claro';
+         }
+         
+         themeBtn.addEventListener('click', () => {
+             body.classList.toggle('dark-mode');
+             
+             if (body.classList.contains('dark-mode')) {
+                 localStorage.setItem('theme', 'dark');
+                 themeBtn.textContent = '☀️ Modo Claro';
+             } else {
+                 localStorage.setItem('theme', 'light');
+                 themeBtn.textContent = '🌙 Modo Escuro';
+             }
+         });
+      </script>
+   </body>
+</html>
